@@ -63,4 +63,4 @@ ForEach ($computer in $groups) {
 $footer=("<br><I>Ultima Geração em {0} by {1}\{2}<I>" -f (Get-Date -displayhint date),$env:userdomain,$env:username) 
 $fragments+=$footer 
 
-ConvertTo-Html -head $head -body $fragments  | Out-File sasworkspace1.html
+ConvertTo-Html -head $head -body $fragments  | Out-File home.html
