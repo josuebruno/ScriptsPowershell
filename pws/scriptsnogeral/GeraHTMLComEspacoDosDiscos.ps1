@@ -3,7 +3,7 @@
 Param ( 
 $computers = (Get-Content  "C:\Users\usuario\Desktop\listadeservidor.txt") 
 ) 
-
+ 
 ##faz cabeçalho do html
  
 $head = @"
