@@ -7,7 +7,11 @@ DISM /online /Get-CurrentEdition
 DISM /online /Set-Edition:ServerStandard /ProductKey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX /AcceptEula
 
 
+#verifica
 
+Get-CimInstance Win32_OperatingSystem
+
+#chaves genericas
 
 Chaves de licença (Product keys) para Windows
 Windows Edition	Product Key
