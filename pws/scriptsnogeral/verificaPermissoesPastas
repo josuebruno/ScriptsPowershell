@@ -1,3 +1,12 @@
+$Header = @"
+<style>
+TABLE {border-width: 1px; border-style: solid; border-color: black; border-collapse: collapse;}
+TH {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #6495ED;}
+TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
+</style>
+"@
+
+
 $FolderPath = Get-ChildItem -Directory -Path "C:\Users" -Recurse -Force
 $Output = @()
 ForEach ($Folder in $FolderPath) {
@@ -7,4 +16,11 @@ $Properties = [ordered]@{'Folder Name'=$Folder.FullName;'Group/User'=$Access.Ide
 $Output += New-Object -TypeName PSObject -Property $Properties            
 }
 }
-$Output | Out-GridView
+
+
+$Output | ConvertTo-Html -Head $Header | Out-File -FilePath PSDrives.html
+
+
+#$Output | Out-GridView
+
+#Get-PSDrive | ConvertTo-Html | Out-File -FilePath PSDrives.html
