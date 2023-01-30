@@ -1,4 +1,4 @@
-##pega o arquivo
+##pega o arquivo 
 
 Param ( 
 $computers = (Get-Content  "C:\Users\usuario\Desktop\listadeservidor.txt") 
