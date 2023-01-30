@@ -1,4 +1,4 @@
-#ver versão do windows
+#ver versão do windows 
 
 DISM /online /Get-CurrentEdition
 
