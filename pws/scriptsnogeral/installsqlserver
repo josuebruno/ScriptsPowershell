@@ -1,0 +1,43 @@
+# Descargar los archivos de instalación de SQL Server 2019
+$InstallerUrl = "https://go.microsoft.com/fwlink/?linkid=866662"
+$InstallerPath = "C:\Instaladores\SQLServer2019"
+
+Invoke-WebRequest -Uri $InstallerUrl -OutFile "$InstallerPath\SQLServer2019.exe"
+
+# Variables de configuración de la instalación
+$InstanceName = "NombreDeLaInstancia"
+$InstanceRootDirectory = "C:\Program Files\Microsoft SQL Server"
+$InstanceDataDirectory = "C:\Program Files\Microsoft SQL Server\MSSQL15.$InstanceName\MSSQL\Data"
+$InstanceLogDirectory = "C:\Program Files\Microsoft SQL Server\MSSQL15.$InstanceName\MSSQL\Log"
+$SAUser = "sa"
+$SAPassword = "Contraseña"
+
+# Instalar SQL Server 2019
+$ConfigurationFile = "$InstallerPath\ConfigurationFile.ini"
+$ConfigurationContent = @"
+[OPTIONS]
+ACTION="Install"
+FEATURES=SQLENGINE
+INSTANCENAME="$InstanceName"
+INSTANCEDIR="$InstanceRootDirectory"
+SQLSYSADMINACCOUNTS="NT Authority\System"
+SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS"
+SQLSVCACCOUNT="NT Service\MSSQL`$$InstanceName"
+SQLSVCPASSWORD="$SAPassword"
+SQLSYSADMINACCOUNTS="$SAUser"
+AGTSVCACCOUNT="NT Service\SQLSERVERAGENT"
+AGTSVCPASSWORD="$SAPassword"
+SECURITYMODE=SQL
+SAPWD="$SAPassword"
+ADDCURRENTUSERASSQLADMIN=false
+TCPENABLED=1
+NPENABLED=0
+BROWSERSVCSTARTUPTYPE="Automatic"
+SQLBACKUPDIR="$InstanceDataDirectory"
+SQLUSERDBDIR="$InstanceDataDirectory"
+SQLUSERDBLOGDIR="$InstanceLogDirectory"
+"@
+
+$ConfigurationContent | Out-File $ConfigurationFile -Encoding ASCII
+
+& "$InstallerPath\SQLServer2019.exe" /ConfigurationFile=$ConfigurationFile /IAcceptSqlServerLicenseTerms
