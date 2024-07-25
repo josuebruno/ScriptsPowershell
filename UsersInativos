@@ -1,0 +1,9 @@
+$dataLimite = Get-Date '2024-05-30'  # Data limite explícita para 8 semanas atrás (30 de maio de 2024)
+$OU = "OU=,DC=,DC=,DC="  # Substitua pelo caminho da sua OU
+
+Get-ADUser -Filter * -Properties SamAccountName, DisplayName, LastLogonTimeStamp -SearchBase $OU |
+    Where-Object {
+        ([DateTime]::FromFileTime($_.LastLogonTimeStamp)).AddHours(-3) -lt $dataLimite  # Converte e ajusta o fuso horário
+    } |
+    Select-Object SamAccountName, DisplayName, @{Name='UltimoLogin';Expression={([DateTime]::FromFileTime($_.LastLogonTimeStamp)).ToString('dd/MM/yyyy HH:mm:ss')}} |
+    Export-Csv C:\Users\Documents\arquivo.csv -NoTypeInformation
